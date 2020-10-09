@@ -8,7 +8,7 @@ It runs different checks on the `mailq` output and provides detailed perfdata.
 ## Example
 
 ```bash
-$ ./check_postfix_mailq.py --count-warning 5 --count-critical 10
+$ ./check_postfix_mailq.py
 WARNING: mailq count >5 | active=1;;;; count=7;5;10;; deferred=5;;;; hold=1;;;; recipients=10;0;0;; size=107800B;0;0;;
 
 $ ./check_postfix_mailq.py --count-warning 5 --count-critical 10 --perfdata-details
@@ -17,7 +17,7 @@ WARNING: mailq count >5 | active=1;;;; count=7;5;10;; count[MAILER-DAEMON]=1 cou
 
 ## Requirements
 
-* Standard modules of Python2 or Python3
+* Standard modules python3
 * Permission to read postfix queues, see `authorized_mailq_users` of `postconf(5)`
 * Command `mailq` can be found in `PATH` variable
 
@@ -33,7 +33,6 @@ Run unit tests:
 
 ```bash
 # Run in git directory of check_postfix_mailq
-$ python2 -m unittest discover -s tests
 $ python3 -m unittest discover -s tests
 ```
 
@@ -49,8 +48,3 @@ real    0m0.169s
 user    0m0.148s
 sys     0m0.012s
 ```
-
-## Alternative monitoring solutions
-
-* https://github.com/kumina/postfix_exporter
-* https://github.com/google/mtail
