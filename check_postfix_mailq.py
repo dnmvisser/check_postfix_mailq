@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Icinga/Nagios plugin to check the postfix mailq
 # For details see: $0 --help
@@ -91,19 +91,55 @@ def check_mailq(input, sender_filter, perfdata_details, count_warning, count_cri
     if size_warning > 0 and sum_mailq_size >= size_critical:
         return 1, 'WARNING: mailq size >%i | %s' % (size_critical, perfdata)
 
-    return 0, 'OKAY: mailq count and size okay | %s' % perfdata
+    return 0, 'OK: mailq count and size OK | %s' % perfdata
 
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='Check postfix mailq nagios/icinga plugins')
-    parser.add_argument('--sender-filter', type=validate_email, required=False, help='Check only mailq entries which given email address or domain, e.g. "noreply@example.com" or "@example.net')
-    parser.add_argument('--count-warning', type=validate_int, required=True, help="Generate warning if mailq entries exceeds this threshold")
-    parser.add_argument('--count-critical', type=validate_int, required=True, help="Generate critical if mailq entries exceeds this threshold")
-    parser.add_argument('--size-warning', type=validate_int, default=0, required=False, help="Generate warning if size in bytes of mails in mailq exceeds this threshold")
-    parser.add_argument('--size-critical', type=validate_int, default=0, required=False, help="Generate critical if size in bytes of mails in mailq exceeds this threshold")
-    parser.add_argument('--recipients-warning', type=validate_int, default=0, required=False, help='Generate warning if sum of all recipients exceeds this threshold (recipients that belong to sender that match the defined filter; default is to match all senders)')
-    parser.add_argument('--recipients-critical', type=validate_int, default=0, required=False, help='Generate critical if sum of all recipients exceeds this threshold (recipients that belong to sender that match the defined filter; default is to match all senders)')
-    parser.add_argument('--perfdata-details', action='store_true', help='Print details about single sender addresses in perfdata')
+    parser.add_argument('--sender-filter',
+            type=validate_email,
+            required=False,
+            help="""Check only mailq entries which given email address or
+            domain, e.g. "noreply@example.com" or "@example.net """)
+    parser.add_argument('--count-warning',
+            type=validate_int,
+            default=1,
+            required=False,
+            help="Generate warning if mailq entries exceeds this threshold")
+    parser.add_argument('--count-critical',
+            type=validate_int,
+            default=2,
+            required=False,
+            help="Generate critical if mailq entries exceeds this threshold")
+    parser.add_argument('--size-warning',
+            type=validate_int,
+            default=0,
+            required=False,
+            help="""Generate warning if size in bytes of mails in mailq exceeds
+            this threshold""")
+    parser.add_argument('--size-critical',
+            type=validate_int,
+            default=0,
+            required=False,
+            help="""Generate critical if size in bytes of mails in mailq exceeds
+            this threshold""")
+    parser.add_argument('--recipients-warning',
+            type=validate_int,
+            default=0,
+            required=False,
+            help="""Generate warning if sum of all recipients exceeds this threshold
+            (recipients that belong to sender that match the defined filter; default is
+            to match all senders)""")
+    parser.add_argument('--recipients-critical',
+            type=validate_int,
+            default=0,
+            required=False,
+            help=("Generate critical if sum of all recipients exceeds this "
+            "threshold (recipients that belong to sender that match the defined "
+            "filter; default is to match all senders)"))
+    parser.add_argument('--perfdata-details',
+            action='store_true',
+            help='Print details about single sender addresses in perfdata')
     args = parser.parse_args(argv[1:])
 
     if args.count_warning >= args.count_critical:
