@@ -3,7 +3,6 @@
 # Icinga/Nagios plugin to check the postfix mailq
 # For details see: $0 --help
 
-import __future__
 from sys import argv, exit
 from os import linesep
 from argparse import ArgumentParser
