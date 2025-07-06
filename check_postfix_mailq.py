@@ -12,7 +12,7 @@ from collections import Counter
 from subprocess import check_output, CalledProcessError
 
 def default_re_email():
-    return '[a-z0-9\.-]{1,64}|[a-z0-9\.-]{0,64}@[a-z0-9\.-]{2,254}'
+    return r'[a-z0-9\.-]{1,64}|[a-z0-9\.-]{0,64}@[a-z0-9\.-]{2,254}'
 
 def validate_email(input):
     pattern=compile('^(%s)$' % default_re_email(), IGNORECASE)
@@ -38,8 +38,8 @@ def check_mailq(input, sender_filter, perfdata_details, count_warning, count_cri
     mailq_state_deferred = 0
     current_sender = None
 
-    re_sender = compile('^[0-9A-F]{10}([!\*]?)\s+([0-9]+)\s+.*\s+(%s)$' % sender_filter, IGNORECASE)
-    re_recipient = compile('^\s+(%s)$' % default_re_email())
+    re_sender = compile(r'^[0-9A-F]{10}([!\*]?)\s+([0-9]+)\s+.*\s+(%s)$' % sender_filter, IGNORECASE)
+    re_recipient = compile(r'^\s+(%s)$' % default_re_email())
 
     for line in input.decode('utf-8').split('\n'):
         line = line.rstrip(linesep)
